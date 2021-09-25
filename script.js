@@ -41,27 +41,44 @@ function largest_palindrome_multipl_2_3_digits() {
 	
 	// init solution 
 	let solution = 0;
+	let nb_digits = 3;
 	// limits of multiplied numbers
-	let i_start = 999, i_end = 100;
-	let j_start = 999, j_end = 100;
+	let i_start = 10**(nb_digits), i_end = 10**(nb_digits-1);
+	let j_start = 10**(nb_digits), j_end = 10**(nb_digits-1);
 
-	for (var i = i_start; i >= i_end; i--) {
-		for (var j = j_start; j >= j_end; j--) {
-			// check if multiplying i*j gived a palyndrom number
-			let tmp_1 = (i*j).toString();
-			let tmp_2 = tmp_1.split("").reverse().join("");
+	for (var i = i_start*j_start -1; i >= i_end*j_end; i--) {
+		// check if i is a palindrom number
+		let tmp_1 = (i).toString();
+		let tmp_2 = tmp_1.split("").reverse().join("");
 
-			console.log("i", i);
-			console.log("j", j);
-			if(tmp_1 == tmp_2 && solution < i*j){
-				// solution found :
-				solution = i*j;
+		if(tmp_1 == tmp_2){
+			console.log("palindrome i : ", i);
+			// check if it has 2 factors with 3 digits
+			if(has_2_3_digits_factors(i, nb_digits)){
+				solution = i;
+				break;
 			}
 		}
 	}
 	// print arrFactors :
 	console.log("solution : ", solution);
 	return solution;
+}
+
+function has_2_3_digits_factors(number, nb_digits){
+	let i_start = 10**(nb_digits) - 1 , i_end = 10**(nb_digits-1);
+
+	for (var i = i_start; i >= i_end ; i--) {
+		// check if number is divided
+		if(number%i == 0){
+			// factor found 
+			let tmpFactor = number/i;
+			if (tmpFactor <= i_start && tmpFactor >= i_end){
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 
