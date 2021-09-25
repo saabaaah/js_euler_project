@@ -2,7 +2,7 @@
 
 
 // call the problem function 
-problem_1();
+problem();
 
 
 // ------------------------ SETUP FUNCTIONS ----------------------- //
@@ -21,33 +21,42 @@ function setUp(number, title, description, solution) {
 
 // ------------------------ PROBLEMS Functions ---------------------- //
 
-// problem N° 1 !
-function problem_1() {
+// problem solution !
+function problem() {
 	// this is the solution 
 	let solution;
-	let title = "Multiples of 3 or 5";
-	let description = "If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\
-	 					<br> Find the sum of all the multiples of 3 or 5 below 1000.";
-
+	let title = "Sum square difference";
+	let description = 
+		"\
+		Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.\
+				";
 	// find solution
-	let max_value = 1000; 
-	// set of nutaral multiples of 3 under max_value :
-	const setMultiples3_5 = new Set();
-	// adding multiples
-	for (var i = 1; i*3 < max_value || i*5 < max_value; i++) {
-		if (i*3 < max_value)
-			setMultiples3_5.add(i*3);
-		if (i*5 < max_value)
-			setMultiples3_5.add(i*5);
-	}
-	//console.log("setMultiples3_5", setMultiples3_5);
-	solution = Array.from(setMultiples3_5).reduce((a, b) => a + b, 0);
-
+	let concerned_number = 100;
+	solution = sum_sqr_difference(concerned_number);
 	// set html data 
-	setUp(1, title, description, solution);
+	setUp(6, title, description, solution);
 }
 
+function sum_sqr_difference(concerned_number) {
+	
+	// init solution 
+	let solution = 0;
+	let sumOfSquares = 0;
+	let squareOfSum = 0;
 
+	// add only prime numbers to arrFactors :
+	for (var i = 1; i <= concerned_number; i++) {
+		// add number to array & to multiplication
+		sumOfSquares += i*i;
+		squareOfSum += i;
+	}
+	// make square of sum
+	squareOfSum *= squareOfSum;
+	// compute the difference
+	solution =  squareOfSum - sumOfSquares;
 
-
+	// print solution :
+	console.log("solution : ", solution);
+	return solution;
+}
 
