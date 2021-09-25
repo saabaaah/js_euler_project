@@ -2,7 +2,7 @@
 
 
 // call the problem function 
-problem_1();
+problem();
 
 
 // ------------------------ SETUP FUNCTIONS ----------------------- //
@@ -21,33 +21,48 @@ function setUp(number, title, description, solution) {
 
 // ------------------------ PROBLEMS Functions ---------------------- //
 
-// problem N° 1 !
-function problem_1() {
+// problem solution !
+function problem() {
 	// this is the solution 
 	let solution;
-	let title = "Multiples of 3 or 5";
-	let description = "If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\
-	 					<br> Find the sum of all the multiples of 3 or 5 below 1000.";
-
+	let title = "Largest palindrome product";
+	let description = 
+		"\
+		A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.\
+		<br>Find the largest palindrome made from the product of two 3-digit numbers.\
+		";
 	// find solution
-	let max_value = 1000; 
-	// set of nutaral multiples of 3 under max_value :
-	const setMultiples3_5 = new Set();
-	// adding multiples
-	for (var i = 1; i*3 < max_value || i*5 < max_value; i++) {
-		if (i*3 < max_value)
-			setMultiples3_5.add(i*3);
-		if (i*5 < max_value)
-			setMultiples3_5.add(i*5);
-	}
-	//console.log("setMultiples3_5", setMultiples3_5);
-	solution = Array.from(setMultiples3_5).reduce((a, b) => a + b, 0);
-
+	solution = largest_palindrome_multipl_2_3_digits();
 	// set html data 
-	setUp(1, title, description, solution);
+	setUp(4, title, description, solution);
 }
 
+function largest_palindrome_multipl_2_3_digits() {
+	
+	// init solution 
+	let solution = 0;
+	// limits of multiplied numbers
+	let i_start = 999, i_end = 100;
+	let j_start = 999, j_end = 100;
 
+	for (var i = i_start; i >= i_end; i--) {
+		for (var j = j_start; j >= j_end; j--) {
+			// check if multiplying i*j gived a palyndrom number
+			let tmp_1 = (i*j).toString();
+			let tmp_2 = tmp_1.split("").reverse().join("");
+
+			console.log("i", i);
+			console.log("j", j);
+			if(tmp_1 == tmp_2 && solution < i*j){
+				// solution found :
+				solution = i*j;
+			}
+		}
+	}
+	// print arrFactors :
+	console.log("solution : ", solution);
+	return solution;
+}
 
 
 
