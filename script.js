@@ -2,7 +2,7 @@
 
 
 // call the problem function 
-problem_1();
+problem();
 
 
 // ------------------------ SETUP FUNCTIONS ----------------------- //
@@ -21,33 +21,62 @@ function setUp(number, title, description, solution) {
 
 // ------------------------ PROBLEMS Functions ---------------------- //
 
-// problem N° 1 !
-function problem_1() {
+// problem solution !
+function problem() {
 	// this is the solution 
 	let solution;
-	let title = "Multiples of 3 or 5";
-	let description = "If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.\
-	 					<br> Find the sum of all the multiples of 3 or 5 below 1000.";
-
+	let title = "Smallest multiple";
+	let description = 
+		"\
+		2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.\
+		What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?\
+		";
 	// find solution
-	let max_value = 1000; 
-	// set of nutaral multiples of 3 under max_value :
-	const setMultiples3_5 = new Set();
-	// adding multiples
-	for (var i = 1; i*3 < max_value || i*5 < max_value; i++) {
-		if (i*3 < max_value)
-			setMultiples3_5.add(i*3);
-		if (i*5 < max_value)
-			setMultiples3_5.add(i*5);
-	}
-	//console.log("setMultiples3_5", setMultiples3_5);
-	solution = Array.from(setMultiples3_5).reduce((a, b) => a + b, 0);
-
+	let concerned_number = 20;
+	solution = smallest_miltiple(concerned_number);
 	// set html data 
-	setUp(1, title, description, solution);
+	setUp(5, title, description, solution);
 }
 
+function smallest_miltiple(concerned_number) {
+	
+	// init solution 
+	let solution = 0;
+	let allFactors = [];
+	let finalFactors = [];
+	let multiplicationValue = 1;
 
+	// add only prime numbers to arrFactors :
+	for (var i = 1; i <= concerned_number; i++) {
+		// add number to array & to multiplication
+		multiplicationValue *= i;
+		allFactors.push(i);
+		finalFactors.push(i);
+	}
+	// for each eliminable factor, we divide on it and eliminate ot
+	for (var i = finalFactors.length - 1; i >= 0; i--) {
+		let tmpFactor = finalFactors[i];
+		let eliminate = true;
+		// check if even after division, the new number is dividable by all initial numbers :
+		for(var j = 0; j < allFactors.length ; j++){
+			if((multiplicationValue/tmpFactor)%allFactors[j] != 0){
+				eliminate = false;
+				break;
+			}
+		}
+		if(eliminate){
+			// eliminate factor, since even after dividing the number by it, it is still devided be it again :
+			finalFactors = finalFactors.filter((a) => a != tmpFactor);
+			multiplicationValue /= tmpFactor;
+		}
+	}
 
+	// reduce finalFactors to multiplication
+	solution = finalFactors.reduce((a,b) => a*b, 1);
 
+	// print finalFactors :
+	console.log("finalFactors : ", finalFactors);
+	console.log("solution : ", solution);
+	return solution;
+}
 
